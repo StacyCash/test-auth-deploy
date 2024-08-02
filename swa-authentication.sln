@@ -13,7 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwaAuth.Models", "SwaAuth.Models\SwaAuth.Models.csproj", "{33BFEF0F-EC4C-4A51-99E4-482A5DD010D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwaAuth.Client", "SwaAuth.Client\SwaAuth.Client.csproj", "{5D22096D-1F45-46CD-8C9A-FCBD3D791430}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwaAuth.Client", "SwaAuth.Client\SwaAuth.Client.csproj", "{5D22096D-1F45-46CD-8C9A-FCBD3D791430}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{2C9EF2EA-229A-4832-893E-3FA47758FC31}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\azure-static-web-apps-polite-mud-05c473c03.yml = .github\workflows\azure-static-web-apps-polite-mud-05c473c03.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
