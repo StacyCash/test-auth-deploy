@@ -68,7 +68,10 @@ namespace Api
                     var decoded = Convert.FromBase64String(data);
                     var json = Encoding.UTF8.GetString(decoded);
 
-                    //var principal = JsonSerializer.Deserialize<ClientPrincipal>(json);
+                    var principal = JsonSerializer.Deserialize<ClientPrincipal>("""
+                        {"identityProvider":"github","userId":"9cb4e48d6c364f8b9d55b5121a346db4","userDetails":"StacyCash","userRoles":["authorised","anonymous","authenticated"]}
+
+                        """);
 
                     return new OkObjectResult(json);
                 }
