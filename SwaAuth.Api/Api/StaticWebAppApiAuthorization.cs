@@ -1,6 +1,6 @@
-﻿using System.Text;
+﻿using Microsoft.Owin;
+using System.Text;
 using System.Text.Json;
-using Microsoft.AspNetCore.Http;
 
 namespace SwaAuth.Api.Api;
 
