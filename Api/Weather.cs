@@ -67,7 +67,7 @@ namespace Api
                 var json = Encoding.UTF8.GetString(decoded);
                 try
                 {
-                    var principal = JsonSerializer.Deserialize<ClientPrincipal>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    var principal = JsonSerializer.Deserialize<ClientPrincipal>(json);
 
                     return new OkObjectResult(principal);
                 }
@@ -85,17 +85,17 @@ namespace Api
 
     public class ClientPrincipal
     {
-        public string? IdentityProvider { get; set; }
-        public string? UserId { get; set; }
-        public string? UserDetails { get; set; }
-        public IEnumerable<string>? UserRoles { get; set; }
-        public IEnumerable<SwaClaims>? Claims { get; set; }
-        public string? AccessToken { get; set; }
+        public string? identityProvider { get; set; }
+        public string? userId { get; set; }
+        public string? userDetails { get; set; }
+        public IEnumerable<string>? userRoles { get; set; }
+        public IEnumerable<SwaClaims>? claims { get; set; }
+        public string? accessToken { get; set; }
     }
 
     public class SwaClaims
     {
-        public string? Typ { get; set; }
-        public string? Val { get; set; }
+        public string? typ { get; set; }
+        public string? val { get; set; }
     }
 }
