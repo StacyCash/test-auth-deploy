@@ -48,13 +48,13 @@ namespace Api
 """
 );
         }
-    }
 
-    [FunctionName("Auth")]
-    public static async Task<IActionResult> Auth(
-        [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
-        ILogger log)
-    {
-        return new OkObjectResult(req.Headers["x-ms-client-principal"][0]);
+        [FunctionName("Auth")]
+        public static async Task<IActionResult> Auth(
+            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
+            ILogger log)
+        {
+            return new OkObjectResult(req.Headers["x-ms-client-principal"][0]);
+        }
     }
 }
