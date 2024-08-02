@@ -1,17 +1,24 @@
 using Microsoft.Azure.Cosmos;
 using Models;
+using System.Text;
+using System.Text.Json;
 
 namespace Api;
 
 public static class Todos
 {
+    private static readonly JsonSerializerOptions options = new()
+    {
+        PropertyNameCaseInsensitive = true
+    };
+
     [FunctionName($"{nameof(Todos)}_Get")]
     public static async Task<IActionResult> GetTodos(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = "todos")]
         HttpRequest request,
         ILogger log)
     {
-        var clientPrincipal = StacyClouds.SwaAuth.Api.StaticWebAppApiAuthentication.ParseHttpHeaderForClientPrinciple(request.Headers);
+        var clientPrincipal = ParseHttpHeaderForClientPrinciple(request.Headers);
         return new OkObjectResult(clientPrincipal);
     }
     
@@ -115,4 +122,39 @@ public static class Todos
         var containerClient = client.GetContainer(databaseName, databaseContainer);
         return containerClient;
     }
+
+    public static ClientPrincipal? ParseHttpHeaderForClientPrinciple(IHeaderDictionary headers)
+    {
+        ArgumentNullException.ThrowIfNull(headers);
+
+        if (!headers.TryGetValue("x-ms-client-principal", out var header))
+        {
+            return null;
+        }
+
+        var data = header[0];
+        if (data is null)
+        {
+            return null;
+        }
+
+        var decoded = Convert.FromBase64String(data);
+        var json = Encoding.UTF8.GetString(decoded);
+        var principal = JsonSerializer.Deserialize<ClientPrincipal>(
+            json,
+            options);
+
+        return principal ?? null;
+    }
+
+    public record ClientPrincipal(
+    string IdentityProvider,
+    string UserId,
+    string UserDetails,
+    IEnumerable<string> UserRoles,
+    IEnumerable<SwaClaims> Claims,
+    string AccessToken);
+
+    public record SwaClaims(string Typ, string Val);
+
 }
