@@ -1,7 +1,5 @@
 using Microsoft.Azure.Cosmos;
 using Models;
-using SwaAuth.Api.Api;
-//using SwaAuth.Models;
 
 namespace Api;
 
@@ -13,9 +11,7 @@ public static class Todos
         HttpRequest request,
         ILogger log)
     {
-        var clientPrincipal =
-            StaticWebAppApiAuthorization
-                .ParseHttpHeaderForClientPrinciple(request.Headers);
+        var clientPrincipal = StacyClouds.SwaAuth.Api.StaticWebAppApiAuthentication.ParseHttpHeaderForClientPrinciple(request.Headers);
         return new OkObjectResult(clientPrincipal);
     }
     

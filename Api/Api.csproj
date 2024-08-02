@@ -7,10 +7,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.CosmosDB" Version="4.7.0" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.4.0" />
+    <PackageReference Include="StacyClouds.SwaAuth" Version="0.1.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Models\Models.csproj" />
-    <ProjectReference Include="..\SwaAuth.Api\SwaAuth.Api.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
