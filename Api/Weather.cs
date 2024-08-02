@@ -65,8 +65,16 @@ namespace Api
                 var data = header[0];
                 var decoded = Convert.FromBase64String(data);
                 var json = Encoding.UTF8.GetString(decoded);
-                var principal = JsonSerializer.Deserialize<ClientPrincipal>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                return new OkObjectResult(principal);
+                try
+                {
+                    var principal = JsonSerializer.Deserialize<ClientPrincipal>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                    return new OkObjectResult(principal);
+                }
+                catch (Exception ex)
+                {
+                    return new OkObjectResult(ex.Message);
+                }
 
                 //clientPrincipal = principal ?? new ClientPrincipal();
             }
