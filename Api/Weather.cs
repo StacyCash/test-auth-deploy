@@ -62,11 +62,11 @@ namespace Api
             }
             else
             {
-                var data = header[0];
+                try
+                {                var data = header[0];
                 var decoded = Convert.FromBase64String(data);
                 var json = Encoding.UTF8.GetString(decoded);
-                try
-                {
+
                     var principal = JsonSerializer.Deserialize<ClientPrincipal>(json);
 
                     return new OkObjectResult(principal);
