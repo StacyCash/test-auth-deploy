@@ -10,31 +10,10 @@ public static class Todos
     public static async Task<IActionResult> GetTodos(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = "todos")]
         HttpRequest request,
-        [CosmosDB(Connection = "TodosDbConnectionString")]
-        CosmosClient client,
         ILogger log)
     {
-        var containerClient = GetCosmosContainerClient(client);
-        //ClientPrincipal clientPrincipal =
-        //    StaticWebAppApiAuthorization
-        //        .ParseHttpHeaderForClientPrinciple(request.Headers);
 
-        QueryDefinition query = new QueryDefinition(
-                @"select
-                    t.id,
-                    t.label,
-                    t.complete
-                  from t");
-                  //where t.userId = @userId");
-            //.WithParameter("@userId", clientPrincipal.UserId);
-
-        List<Todo> todos = new();
-        var todosIterator = containerClient.GetItemQueryIterator<Todo>(query, null, new QueryRequestOptions());
-        while (todosIterator.HasMoreResults)
-        {
-            todos.AddRange(await todosIterator.ReadNextAsync());
-        }
-        return new OkObjectResult(todos);
+        return new OkResult();
     }
     
     [FunctionName($"{nameof(Todos)}_Post")]
