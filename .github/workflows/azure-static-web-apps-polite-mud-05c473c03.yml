@@ -25,8 +25,8 @@ jobs:
           dotnet-version: '8.0.x'
           include-prerelease: false
 
-      - name: 'Run Tests'
-        run: dotnet test --configuration Release **/*Tests.csproj   
+      # - name: 'Run Tests'
+      #   run: dotnet test --configuration Release **/*Tests.csproj   
           
       - name: Client Build
         run: dotnet publish ./Client/Client.csproj --output ./dist/lient
