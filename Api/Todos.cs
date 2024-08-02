@@ -1,6 +1,6 @@
 using Microsoft.Azure.Cosmos;
 using Models;
-using SwaAuth.Models;
+//using SwaAuth.Models;
 
 namespace Api;
 
@@ -15,18 +15,18 @@ public static class Todos
         ILogger log)
     {
         var containerClient = GetCosmosContainerClient(client);
-        ClientPrincipal clientPrincipal =
-            StaticWebAppApiAuthorization
-                .ParseHttpHeaderForClientPrinciple(request.Headers);
+        //ClientPrincipal clientPrincipal =
+        //    StaticWebAppApiAuthorization
+        //        .ParseHttpHeaderForClientPrinciple(request.Headers);
 
         QueryDefinition query = new QueryDefinition(
                 @"select
                     t.id,
                     t.label,
                     t.complete
-                  from t
-                  where t.userId = @userId")
-            .WithParameter("@userId", clientPrincipal.UserId);
+                  from t");
+                  //where t.userId = @userId");
+            //.WithParameter("@userId", clientPrincipal.UserId);
 
         List<Todo> todos = new();
         var todosIterator = containerClient.GetItemQueryIterator<Todo>(query, null, new QueryRequestOptions());
@@ -54,9 +54,9 @@ public static class Todos
             return new BadRequestObjectResult("id must be null");
         }
 
-        var clientPrincipal =
-            StaticWebAppApiAuthorization
-                .ParseHttpHeaderForClientPrinciple(request.Headers);
+        //var clientPrincipal =
+        //    StaticWebAppApiAuthorization
+        //        .ParseHttpHeaderForClientPrinciple(request.Headers);
 
         todo.Id = Guid.NewGuid();
 
@@ -65,11 +65,11 @@ public static class Todos
             id = todo.Id.ToString(),
             label = todo.Label,
             complete = todo.Complete,
-            userId = clientPrincipal.UserId
+            //userId = clientPrincipal.UserId
         };
 
         var containerClient = GetCosmosContainerClient(client);
-        await containerClient.CreateItemAsync<dynamic>(savedTodoPost);
+        //await containerClient.CreateItemAsync<dynamic>(savedTodoPost);
 
         return new OkObjectResult(todo);
     }
@@ -84,9 +84,9 @@ public static class Todos
         CosmosClient client,
         ILogger log)
     {
-        var clientPrincipal =
-            StaticWebAppApiAuthorization
-                .ParseHttpHeaderForClientPrinciple(request.Headers);
+        //var clientPrincipal =
+        //    StaticWebAppApiAuthorization
+        //        .ParseHttpHeaderForClientPrinciple(request.Headers);
 
         QueryDefinition query = new QueryDefinition(
                 @"select
@@ -95,7 +95,7 @@ public static class Todos
                   where 
                     t.userId = @userId 
                     and t.id = @id")
-            .WithParameter("@userId", clientPrincipal.UserId)
+            //.WithParameter("@userId", clientPrincipal.UserId)
             .WithParameter("id", todo.Id.ToString());
         
         var containerClient = GetCosmosContainerClient(client);
@@ -112,7 +112,7 @@ public static class Todos
             PatchOperation.Replace("/complete", todo.Complete)
         };
 
-        _ = await containerClient.PatchItemAsync<Todo>(todo.Id.ToString(), new PartitionKey(clientPrincipal.UserId), operations);
+        //_ = await containerClient.PatchItemAsync<Todo>(todo.Id.ToString(), new PartitionKey(clientPrincipal.UserId), operations);
         
         return new OkResult();
     }
