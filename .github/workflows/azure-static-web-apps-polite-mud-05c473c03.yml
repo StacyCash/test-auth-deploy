@@ -5,13 +5,7 @@ on:
     branches:
       - main
   pull_request:
-    types: [opened, synchronize, reopened, closed]
-    branches:
-      - main
-
-jobs:
-  build_and_test:
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    types: [opened, synchronize, reopened, closed]stacee == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
@@ -29,7 +23,7 @@ jobs:
       #   run: dotnet test --configuration Release **/*Tests.csproj   
           
       - name: Client Build
-        run: dotnet publish ./Client/Client.csproj --output ./dist/lient
+        run: dotnet publish ./Client/Client.csproj --output ./dist/client
 
       - name: Api Build
         run: dotnet publish ./Api/Api.csproj --output ./dist/api
