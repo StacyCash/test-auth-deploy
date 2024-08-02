@@ -10,6 +10,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\SwaAuth.Api\SwaAuth.Api.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">

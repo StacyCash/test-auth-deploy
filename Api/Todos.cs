@@ -1,5 +1,6 @@
 using Microsoft.Azure.Cosmos;
 using Models;
+using SwaAuth.Api.Api;
 //using SwaAuth.Models;
 
 namespace Api;
@@ -12,8 +13,10 @@ public static class Todos
         HttpRequest request,
         ILogger log)
     {
-
-        return new OkResult();
+        var clientPrincipal =
+            StaticWebAppApiAuthorization
+                .ParseHttpHeaderForClientPrinciple(request.Headers);
+        return new OkObjectResult(clientPrincipal);
     }
     
     [FunctionName($"{nameof(Todos)}_Post")]
