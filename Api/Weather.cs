@@ -1,12 +1,13 @@
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Text.Json;
+using System.Text;
 
 namespace Api
 {
@@ -54,7 +55,38 @@ namespace Api
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            return new OkObjectResult(req.Headers["x-ms-client-principal"][0]);
+            ClientPrincipal clientPrincipal;
+            if (!req.Headers.TryGetValue("x-ms-client-principal", out var header))
+            {
+                clientPrincipal = new();
+            }
+            else
+            {
+                var data = header[0];
+                var decoded = Convert.FromBase64String(data);
+                var json = Encoding.UTF8.GetString(decoded);
+                var principal = JsonSerializer.Deserialize<ClientPrincipal>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                clientPrincipal = principal ?? new ClientPrincipal();
+            }
+        
+            return new OkObjectResult(clientPrincipal);
         }
+    }
+
+    public class ClientPrincipal
+    {
+        public string? IdentityProvider { get; set; }
+        public string? UserId { get; set; }
+        public string? UserDetails { get; set; }
+        public IEnumerable<string>? UserRoles { get; set; }
+        public IEnumerable<SwaClaims>? Claims { get; set; }
+        public string? AccessToken { get; set; }
+    }
+
+    public class SwaClaims
+    {
+        public string? Typ { get; set; }
+        public string? Val { get; set; }
     }
 }
