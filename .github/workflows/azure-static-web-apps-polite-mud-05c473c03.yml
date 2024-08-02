@@ -26,7 +26,7 @@ jobs:
           include-prerelease: false
           
       - name: Client Build
-        run: dotnet publish ./Client/Client.csproj --output ./dist/lient
+        run: dotnet publish ./Client/Client.csproj --output ./dist/client
 
       - name: Api Build
         run: dotnet publish ./Api/Api.csproj --output ./dist/api
