@@ -63,13 +63,14 @@ namespace Api
             else
             {
                 try
-                {                var data = header[0];
-                var decoded = Convert.FromBase64String(data);
-                var json = Encoding.UTF8.GetString(decoded);
+                {                
+                    var data = header[0];
+                    var decoded = Convert.FromBase64String(data);
+                    var json = Encoding.UTF8.GetString(decoded);
 
-                    var principal = JsonSerializer.Deserialize<ClientPrincipal>(json);
+                    //var principal = JsonSerializer.Deserialize<ClientPrincipal>(json);
 
-                    return new OkObjectResult(principal);
+                    return new OkObjectResult(json);
                 }
                 catch (Exception ex)
                 {
